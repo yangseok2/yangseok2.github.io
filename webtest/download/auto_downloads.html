@@ -7,11 +7,11 @@
     <p>
         Number of downloads 
         <input type="number" style="width: 50px;" id="download_count">
-        <input type="button" value="SET" onclick="setDownloadCount()">
-        <input type="button" value="Clear" onclick="clearDownload()">
+        <input type="button" id="btn_set" value="SET" onclick="setDownloadCount()">
+        <input type="button" id="btn_clear" value="Clear" onclick="clearDownload()">
     </p>
     <p>
-        <input type="button" value="..........Download.........." onclick="doDownload()">
+        <input type="button" id="btn_download" value="..........DOWNLOAD.........." onclick="doDownload()" disabled>
     </p>
 
     <a href="img/android.png" download="base" id="base_node" style="display: none">
@@ -26,7 +26,6 @@
 <script>
     container = document.getElementById('container')
     base_node = document.getElementById('base_node')
-
     var download_count 
     
     function to2DigitString(v) {
@@ -35,7 +34,6 @@
     
         return v.toString();
     }
-
     function getCurrTimeStr() {
         var d = new Date();
         date = to2DigitString(d.getFullYear()) + to2DigitString(d.getMonth()) + to2DigitString(d.getDate());
@@ -68,29 +66,59 @@
         download_count = n
         if (n == NaN)
             return;
-
         time_str = getCurrTimeStr();
-
         for (let index = 0; index < n; index++) {
             addNode(time_str, index);
         }
+        document.getElementById('btn_download').disabled = false;
     }
 
     function clearDownload() {
         document.getElementById('download_count').value = '';
         clearContainer();
+        document.getElementById('btn_download').disabled = true;
+    }
+
+    g_index = 0;
+    var interval_var = null;
+
+    function downloadItem() {
+        container = document.getElementById('container')
+        if (g_index < download_count) {
+            // container.childNodes[g_index].click();
+            console.log(container.childNodes[g_index])
+            g_index++;
+            return;
+        }
+
+        stopDownload();
+    }
+
+    function stopDownload() {
+        clearInterval(interval_var);
+        interval_var = null;
+        document.getElementById('btn_download').value = '..........DOWNLOAD..........'
+        document.getElementById('btn_download').disabled = true;
+        document.getElementById('btn_set').disabled = false;
+        document.getElementById('btn_clear').disabled = false;
     }
 
     function doDownload() {
+        if (interval_var != null) {
+            stopDownload()
+            return;
+        }
+
+        document.getElementById('btn_set').disabled = true;
+        document.getElementById('btn_clear').disabled = true;
+
         n = download_count;
         if (n == NaN)
             return;
 
-        container = document.getElementById('container')
+        document.getElementById('btn_download').value = '..........STOP..........'
 
-        for (let index = 0; index < n; index++) {
-            container.childNodes[index].click()
-        }
+        interval_var = setInterval(downloadItem, 200)
     }
     
 </script>
