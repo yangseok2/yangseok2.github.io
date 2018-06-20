@@ -85,8 +85,7 @@
     function downloadItem() {
         container = document.getElementById('container')
         if (g_index < download_count) {
-            // container.childNodes[g_index].click();
-            console.log(container.childNodes[g_index])
+            container.childNodes[g_index].click();
             g_index++;
             return;
         }
