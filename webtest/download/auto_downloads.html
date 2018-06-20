@@ -12,6 +12,7 @@
     </p>
     <p>
         <input type="button" id="btn_download" value="..........DOWNLOAD.........." onclick="doDownload()" disabled>
+        <span id="progress"></span>
     </p>
 
     <a href="img/android.png" download="base" id="base_node" style="display: none">
@@ -71,12 +72,14 @@
             addNode(time_str, index);
         }
         document.getElementById('btn_download').disabled = false;
+        document.getElementById('progress').innerHTML = ''
     }
 
     function clearDownload() {
         document.getElementById('download_count').value = '';
         clearContainer();
         document.getElementById('btn_download').disabled = true;
+        document.getElementById('progress').innerHTML = ''
     }
 
     g_index = 0;
@@ -85,6 +88,7 @@
     function downloadItem() {
         container = document.getElementById('container')
         if (g_index < download_count) {
+            document.getElementById('progress').innerHTML = (g_index + 1).toString();
             container.childNodes[g_index].click();
             g_index++;
             return;
