@@ -89,12 +89,13 @@
             g_index++;
             return;
         }
-
+        
         stopDownload();
     }
 
     function stopDownload() {
         clearInterval(interval_var);
+        g_index = 0;
         interval_var = null;
         document.getElementById('btn_download').value = '..........DOWNLOAD..........'
         document.getElementById('btn_download').disabled = true;
