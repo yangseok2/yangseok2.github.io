@@ -1,0 +1,9 @@
+<html>
+<head>
+    <title>Web Test - Download - Auto Downloads</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<iframe id="uriFrame" src="naversearchapp://addshortcut?url=http%3A%2F%2Fm.nstore.naver.com&icon=http%3A%2F%2Fstatic.naver.net%2Fwww%2Fu%2F2012%2F0604%2Fnmms_153256734.png&title=N%EC%8A%A4%ED%86%A0%EC%96%B4&serviceCode=nstore&version=7" height="0" width="0"></iframe>
+</body>
+</html>
