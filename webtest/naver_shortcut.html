@@ -1,9 +1,32 @@
+<!DOCTYPE html>
 <html>
-<head>
-    <title>Web Test - Download - Auto Downloads</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
 <body>
-<iframe id="uriFrame" src="naversearchapp://addshortcut?url=http%3A%2F%2Fm.nstore.naver.com&icon=http%3A%2F%2Fstatic.naver.net%2Fwww%2Fu%2F2012%2F0604%2Fnmms_153256734.png&title=N%EC%8A%A4%ED%86%A0%EC%96%B4&serviceCode=nstore&version=7" height="0" width="0"></iframe>
+
+Current Time: <span id="demo"></span>
+
+<script>
+var myVar = setInterval(myTimer, 1000);
+
+function myTimer() {
+    var d = new Date();
+    var t = d.toLocaleTimeString();
+    document.getElementById("demo").innerHTML = t;
+}
+</script>
+
+<script>
+function addShortcut() {
+	var html_string = '<iframe src="naversearchapp://addshortcut?url=http%3A%2F%2Fwrd.appstory.co.kr%2Frd.flad%3Fn%3D34361&icon=http%3A%2F%2Fimg.appstory.co.kr%2Fm.c.appstory.co.kr%2Fapc_fav114.png&title=%EC%95%B1%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%AA%B0M&serviceCode=appstory&version=7" width="0" height="0" marginheight="0" marginwidth="0" scrolling="no" frameborder="0"></iframe>';
+	var div = document.createElement('div');
+	div.innerHTML = html_string.trim();
+
+	document.body.appendChild(div.firstChild);
+}
+</script>
+
+<br>
+<br>
+<input type="button" id="btn_shortcut" value="Add Shortcut" onclick="addShortcut()">
+
 </body>
 </html>
