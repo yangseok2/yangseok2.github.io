@@ -9,17 +9,28 @@
 
 <button onclick="myFunction()">Check window size</button>
 
-<p id="demo"></p>
+<div id="demo">
+<div>
+
 
 <script>
-function myFunction() {
-  var w = window.innerWidth;
+var i = 0;
+function getHeight() {
+  i++;
   var h = window.innerHeight;
-  document.getElementById("demo").innerHTML = "Width: " + w + "<br>Height: " + h;
+  var textnode = document.createTextNode("(" + i + ")" + " Height: " + h);
+  document.getElementById("demo").appendChild(textnode);
+  var br = document.createElement("br");
+  br.id = i.toString();
+  document.getElementById("demo").appendChild(br);
+  document.getElementById(i.toString()).scrollIntoView();
+  
+  if (i >= 50) clearInterval(interval);
 }
 
-myFunction();
-</script>
+getHeight();
 
+var interval = setInterval(function(){ getHeight(); }, 500);
+</script>
 </body>
 </html>
