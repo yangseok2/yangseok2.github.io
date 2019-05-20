@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<p>Click the button to display this frame's height and width.</p>
+
+<button onclick="myFunction()">Check window size</button>
+
+<div id="demo">
+<div>
+
+
+<script>
+var i = 0;
+function getHeight() {
+  i++;
+  var h = window.innerHeight;
+  var textnode = document.createTextNode("(" + i + ")" + " Height: " + h);
+  document.getElementById("demo").appendChild(textnode);
+  var br = document.createElement("br");
+  br.id = i.toString();
+  document.getElementById("demo").appendChild(br);
+  document.getElementById(i.toString()).scrollIntoView();
+  
+  if (i >= 1000) clearInterval(interval);
+}
+
+getHeight();
+
+var interval = setInterval(function(){ getHeight(); }, 10);
+</script>
+</body>
+</html>
