@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <title>Pointer Event</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <style>
+            #event_area {
+                position: fixed;
+                top: 10;
+                right: 0;
+                width: 180px;
+                height: 560px;
+                background-color: yellow;
+                border: 1px;
+                padding-left: 10px;
+            }
+
+            #event_area > #events {
+                height: 380px;
+                overflow-y: scroll;
+            }
+
+            #touch_area {
+                height: 2200px;
+                width: 180px;
+                padding-left: 10px;
+                border: 2px solid black;
+                border-color: black;
+                background: linear-gradient(to bottom, #1e5799 0%,#ffffff 100%);
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="event_area">
+            <H3>Display Events</H3>
+            <div><button onclick="clearEvents();">Clear</button></div><br>
+            <div id="events"></div>
+        </div>
+
+        <div id="touch_area">
+            <H3 style="color:white">Touch Area</H3>
+        
+        </div>
+
+    </body>
+
+<script>
+
+    function clearEvents() {
+        var divElement = document.getElementById("events");
+        while ( divElement.hasChildNodes() ) { 
+            divElement.removeChild( divElement.firstChild ); 
+        }
+    }
+
+    var eventsDisplayArea = document.getElementById("events");
+
+    function displayEvent(event_name) {
+        var divElement = document.createElement("div");
+        var textNode = document.createTextNode(event_name + "(Y:"+ document.body.scrollTop.toString() + ")");
+        divElement.appendChild(textNode);
+        eventsDisplayArea.appendChild(divElement);
+    }
+
+    var touchArea = document.getElementById("touch_area");
+
+    touchArea.addEventListener("pointerdown", (event) => { displayEvent(event.type)});
+    touchArea.addEventListener("pointermove", (event) => { displayEvent(event.type)});
+    touchArea.addEventListener("pointerup", (event) => { displayEvent(event.type)});
+    touchArea.addEventListener("pointercancel", (event) => { displayEvent(event.type)});
+    touchArea.addEventListener("click", (event) => { displayEvent(event.type)});
+    // touchArea.addEventListener("scroll", (event) => { displayEvent(event.type)});
+    window.addEventListener("scroll", (event) => { displayEvent(event.type)});
+    // window.onscroll = displayEvent("scroll");
+</script>
+</html>
