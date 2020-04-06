@@ -18,6 +18,11 @@
     function crash_mint() {
 	kill()
     }
-    setInterval(crash_mint, 0.5);
+    function start() {
+	setInterval(crash_mint, 0.5);
+    }
   </script>
+<body>
+	<input type="button" value="start" onclick="start()">
+</body>
 </html>
