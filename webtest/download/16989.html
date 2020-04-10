@@ -1,4 +1,7 @@
 <html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>	
   <script>
     function download(g,h,j) {
 	var k = new Blob([g], {
@@ -23,6 +26,8 @@
     }
   </script>
 <body>
-	<input type="button" value="start" onclick="start()">
+	<p>v2</p><br>
+	<input type="button" value="start" onclick="start()"><br><br>
+	<input type="button" value="start" onclick="download(Math.floor(50 * Math.random() + 25), '1234567890', '1234567890')">
 </body>
 </html>
