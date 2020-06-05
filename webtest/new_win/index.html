@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Changing Screen Orientation with Javascript : Demo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable=no">
+<style type="text/css">
+</style>
+</head>
+<body>
+<H2>New Window Test</H2>
+<br>
+<br>
+URL : <br>
+<div style="display: flex;">
+    <div style="flex-grow: 1;">
+        <input type="text" style="width:100%;" id=url>
+    </div>
+    <div>
+        <input type="button" value="Clear" onclick="document.getElementById('url').value='';">
+    </div>
+</div>
+<br>
+<div style="display: flex;">
+    <div style="flex-grow: 1; padding: 10px;">
+        <input type="button" value="Use _blank" style="width: 100%; height: 30px;" onclick="openWithBlank();">
+        <a target="_blank" id=link style="display: none;">link</a>
+    </div>
+    <div style="flex-grow: 1; padding: 10px;">
+        <input type="button" value="Use window.open()" style="width: 100%; height: 30px;" onclick="openWithWindowOpen();">
+    </div>
+</div>
+
+<script>
+
+function getUrl() {
+    urlElement = document.getElementById('url');
+    urlString = NaN;
+    if (urlElement.value) {
+        urlString = urlElement.value.trim();
+    }
+
+    if (!urlString) {
+        alert("Empty URL");
+        exception;
+    }
+
+    if (!urlString.startsWith("http://") && !urlString.startsWith("https://")) {
+        urlString = "http://" + urlString;
+    }
+
+    return urlString;
+}
+
+function openWithBlank() {
+    linkElement = document.getElementById('link');
+    linkElement.href = getUrl();
+    linkElement.click();
+}
+
+function openWithWindowOpen() {
+    urlElement = document.getElementById('url');
+    window.open(getUrl());
+}
+</script>
+
+</body>
+</html>
