@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Changing Screen Orientation with Javascript : Demo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable=no">
+<style type="text/css">
+ 
+html {
+    height: 100%;
+}
+ 
+body {
+    margin: 0px;
+    background-color: #336699;
+    height: 100%;
+    width: 100%;
+}
+ 
+#container {
+     
+}
+ 
+#container:fullscreen {
+    width: 100%;
+    height: 100%;
+    background-color: green;
+}
+ 
+#container:-webkit-full-screen {
+    width: 100%;
+    height: 100%;
+    background-color: green;
+}
+ 
+#orientation-status {
+    text-align: center;
+    margin: 30px 0;
+    color: white;
+}
+ 
+button {
+    background-color: white;
+    border: 1px solid #336699;
+    color: #336699;
+    width: 300px;
+    padding: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 700;
+    outline: none;
+}
+ 
+#lock-landscape-button {
+     
+}
+ 
+#unlock-button {
+    display: none;
+}
+ 
+</style>
+</head>
+ 
+<body>
+ 
+<div id="container">
+    <p id="orientation-status"></p>
+    <div id="buttons-container">
+        <button id="lock-landscape-button">fullscreen and orientation</button>
+        <button id="unlock-button">Exit fullscreen</button>
+        <br>
+        <button id="fullscreen-button">Enter fullscreen</button>
+        <button id="orientation-button">Orientation</button>
+        <br>
+        <button id="alert" onclick="alert();">Alert</button>
+    </div>
+    <br>
+    <div id="logging" style="display:none; overflow: auto; height: 250px; margin: 10px">
+
+    </div>
+</div>
+ 
+<script>
+ 
+var _LOCK_BUTTON = document.querySelector("#lock-landscape-button"),
+    _UNLOCK_BUTTON = document.querySelector("#unlock-button"),
+    _STATUS = document.querySelector("#orientation-status");
+    _LOGGING = document.querySelector("#logging");
+ 
+_STATUS.innerHTML = screen.orientation.type + ' mode';
+ 
+document.querySelector("#fullscreen-button").addEventListener('click', function() {
+    if(document.documentElement.requestFullscreen)
+        document.querySelector("#container").requestFullscreen();
+    else if(document.documentElement.webkitRequestFullScreen)
+        document.querySelector("#container").webkitRequestFullScreen();
+
+    document.querySelector("#fullscreen-button").style.display = 'none';
+    document.querySelector("#unlock-button").style.display = 'block';
+}
+
+document.querySelector("#orientation-button").addEventListener('click', function() {
+    screen.orientation.lock("landscape-primary")
+}
+
+        
+// upon lock to landscape-primary mode
+document.querySelector("#orientation-button").addEventListener('click', function() {
+    if(document.documentElement.requestFullscreen)
+        document.querySelector("#container").requestFullscreen();
+    else if(document.documentElement.webkitRequestFullScreen)
+        document.querySelector("#container").webkitRequestFullScreen();
+
+    addLogging("requestFullscreen -------------------------------");
+ 
+    screen.orientation.lock("landscape-primary")
+        .then(function() {
+            _LOCK_BUTTON.style.display = 'none';
+            _UNLOCK_BUTTON.style.display = 'block';
+            w = window.innerWidth;
+            h = window.innerHeight;
+            if (w < h) {
+                addLogging("<font color='red'>orientation lock :::: " + "w:" + w + " h:" + h + "</font>");
+                var index = 0;
+                var interval = setInterval(function() { 
+                    w = window.innerWidth;
+                    h = window.innerHeight;
+                    if (w < h) {
+                        index++;
+                        addLogging((index * 10) + "ms " + "<font color='red'>" + "w:" + w + " h:" + h + "</font>");
+                    } else {
+                        index++;
+                        addLogging((index * 10) + "ms "  + "w:" + w + " h:" + h);
+                        clearInterval(interval);
+                        index = 0;
+                    }
+                }, 10);
+            } else
+                addLogging("orientation lock :::: " + "w:" + w + " h:" + h);
+
+        })
+        .catch(function(error) {
+            alert(error);
+        });
+});
+ 
+// upon unlock
+document.querySelector("#unlock-button").addEventListener('click', function() {
+    if(document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if(document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
+    addLogging("exitFullscreen -------------------------------");
+    screen.orientation.unlock();
+ 
+    _LOCK_BUTTON.style.display = 'block';
+    _UNLOCK_BUTTON.style.display = 'none';
+    document.querySelector("#fullscreen-button").style.display = 'block';
+});
+ 
+// when screen orientation changes
+screen.orientation.addEventListener("change", function() {
+    _STATUS.innerHTML = screen.orientation.type + ' mode';
+    curr_orientation = screen.orientation.type.split("-")[0];
+    addLogging("orientation change - " + curr_orientation + " w:" + window.innerWidth + " h:" + window.innerHeight);
+});
+ 
+// on exiting full-screen lock is automatically released
+document.addEventListener("fullscreenchange", function() {
+    _LOCK_BUTTON.style.display = 'block';
+    _UNLOCK_BUTTON.style.display = 'none';
+    addLogging("fullscreenchange - " + " w:" + window.innerWidth + " h:" + window.innerHeight);
+});
+ 
+document.addEventListener("webkitfullscreenchange", function() {
+    _LOCK_BUTTON.style.display = 'block';
+    _UNLOCK_BUTTON.style.display = 'none';
+});
+
+function addLogging(str) {
+    _LOGGING.innerHTML = _LOGGING.innerHTML + "<br>" + str;
+    _LOGGING.scrollTop = _LOGGING.scrollHeight;
+}
+ 
+</script>
+ 
+</body>
+</html>
