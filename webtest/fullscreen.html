@@ -62,7 +62,7 @@ button {
     <p id="orientation-status"></p>
     <div id="buttons-container">
         <button id="fullscreen-button">Enter fullscreen</button>
-        <button id="exit-button">Exit fullscreen</button>
+        <button id="exit-button" style="display: none;">Exit fullscreen</button>
         <br>
         <button id="alert" onclick="alert();">Alert</button>
     </div>
@@ -82,7 +82,7 @@ var _FULLSCREEN_BUTTON = document.querySelector("#fullscreen-button"),
  
 _FULLSCREEN_BUTTON.addEventListener('click', function() {
     if(document.documentElement.requestFullscreen)
-        document.querySelector("#container").requestFullscreen();
+        document.querySelector("#container").requestFullscreen({navigationUI: "hide"});
     else if(document.documentElement.webkitRequestFullScreen)
         document.querySelector("#container").webkitRequestFullScreen();
 });
@@ -110,4 +110,3 @@ document.addEventListener("fullscreenchange", function() {
  
 </body>
 </html>
-
