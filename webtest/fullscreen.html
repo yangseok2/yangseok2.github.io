@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Changing Screen Orientation with Javascript : Demo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable=no">
+<style type="text/css">
+ 
+html {
+    height: 100%;
+}
+ 
+body {
+    margin: 0px;
+    background-color: #336699;
+    height: 100%;
+    width: 100%;
+}
+ 
+#container {
+     
+}
+ 
+#container:fullscreen {
+    width: 100%;
+    height: 100%;
+    background-color: green;
+}
+ 
+#container:-webkit-full-screen {
+    width: 100%;
+    height: 100%;
+    background-color: green;
+}
+ 
+#orientation-status {
+    text-align: center;
+    margin: 30px 0;
+    color: white;
+}
+ 
+button {
+    background-color: white;
+    border: 1px solid #336699;
+    color: #336699;
+    width: 300px;
+    padding: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 700;
+    outline: none;
+}
+
+ 
+</style>
+</head>
+ 
+<body>
+ 
+<div id="container">
+    <p id="orientation-status"></p>
+    <div id="buttons-container">
+        <button id="fullscreen-button">Enter fullscreen</button>
+        <button id="exit-button">Exit fullscreen</button>
+        <br>
+        <button id="alert" onclick="alert();">Alert</button>
+    </div>
+    <br>
+    <div id="logging" style="display:none; overflow: auto; height: 250px; margin: 10px">
+
+    </div>
+</div>
+ 
+<script>
+
+var isFullscreen = false;
+ 
+var _FULLSCREEN_BUTTON = document.querySelector("#fullscreen-button"),
+    _EXIT_BUTTON = document.querySelector("#exit-button");
+ 
+ 
+_FULLSCREEN_BUTTON.addEventListener('click', function() {
+    if(document.documentElement.requestFullscreen)
+        document.querySelector("#container").requestFullscreen();
+    else if(document.documentElement.webkitRequestFullScreen)
+        document.querySelector("#container").webkitRequestFullScreen();
+});
+
+_EXIT_BUTTON.addEventListener('click', function() {
+    if(document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if(document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
+});
+
+
+document.addEventListener("fullscreenchange", function() {
+    if (document.fullscreenElement) {
+        _FULLSCREEN_BUTTON.style.display = 'none';
+        _EXIT_BUTTON.style.display = 'block';
+    } else {
+        _FULLSCREEN_BUTTON.style.display = 'block';
+        _EXIT_BUTTON.style.display = 'none';
+    }
+})
+  
+</script>
+ 
+</body>
+</html>
+
