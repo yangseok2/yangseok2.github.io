@@ -1,0 +1,130 @@
+<html>
+<head>
+    <title>Web Test - Download - Auto Downloads</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <p>
+        Number of downloads 
+        <input type="number" style="width: 50px;" id="download_count">
+        <input type="button" id="btn_set" value="SET" onclick="setDownloadCount()">
+        <input type="button" id="btn_clear" value="Clear" onclick="clearDownload()">
+    </p>
+    <p>
+        <input type="button" id="btn_download" value="..........DOWNLOAD.........." onclick="doDownload()" disabled>
+        <span id="progress"></span>
+    </p>
+
+    <a href="img/android.png" download="base" id="base_node" style="display: none">
+        <img border="0" src="img/android.png" width="20">
+    </a>
+          
+    <div id=container style="display: none;"></div>
+
+
+
+</body>
+<script>
+    container = document.getElementById('container')
+    base_node = document.getElementById('base_node')
+    var download_count 
+    
+    function to2DigitString(v) {
+        if (v < 10) 
+            return '0' + v.toString();
+    
+        return v.toString();
+    }
+    function getCurrTimeStr() {
+        var d = new Date();
+        date = to2DigitString(d.getFullYear()) + to2DigitString(d.getMonth()) + to2DigitString(d.getDate());
+        time = to2DigitString(d.getHours()) + to2DigitString(d.getMinutes());
+        
+        return date + '_' + time  + '_';
+    }
+    
+    
+    function addNode(time, index) {
+        new_node = base_node.cloneNode(true);
+        new_node.download = time + index.toString();
+        new_node.style = ''
+        container = document.getElementById('container')
+        container.appendChild(new_node);
+    }
+    
+    function clearContainer() {
+        container = document.getElementById('container')
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
+    }
+
+    function setDownloadCount() {
+        clearContainer()
+        
+        count = document.getElementById('download_count').value;
+        n = Number(count);
+        download_count = n
+        if (n == NaN)
+            return;
+        time_str = getCurrTimeStr();
+        for (let index = 0; index < n; index++) {
+            addNode(time_str, index);
+        }
+        document.getElementById('btn_download').disabled = false;
+        document.getElementById('progress').innerHTML = ''
+    }
+
+    function clearDownload() {
+        document.getElementById('download_count').value = '';
+        clearContainer();
+        document.getElementById('btn_download').disabled = true;
+        document.getElementById('progress').innerHTML = ''
+    }
+
+    g_index = 0;
+    var interval_var = null;
+
+    function downloadItem() {
+        container = document.getElementById('container')
+        if (g_index < download_count) {
+            document.getElementById('progress').innerHTML = (g_index + 1).toString();
+            container.childNodes[g_index].click();
+            g_index++;
+            return;
+        }
+        
+        stopDownload();
+    }
+
+    function stopDownload() {
+        clearInterval(interval_var);
+        g_index = 0;
+        interval_var = null;
+        document.getElementById('btn_download').value = '..........DOWNLOAD..........'
+        document.getElementById('btn_download').disabled = true;
+        document.getElementById('btn_set').disabled = false;
+        document.getElementById('btn_clear').disabled = false;
+    }
+
+    function doDownload() {
+        if (interval_var != null) {
+            stopDownload()
+            return;
+        }
+
+        document.getElementById('btn_set').disabled = true;
+        document.getElementById('btn_clear').disabled = true;
+
+        n = download_count;
+        if (n == NaN)
+            return;
+
+        document.getElementById('btn_download').value = '..........STOP..........'
+
+        interval_var = setInterval(downloadItem, 500)
+    }
+    
+</script>
+        
+</html>
